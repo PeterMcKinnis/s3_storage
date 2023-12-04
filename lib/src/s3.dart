@@ -1100,7 +1100,10 @@ class S3Storage {
   }
 
   /// Stat information of the object.
-  Future<StatObjectResult> statObject(String bucket, String object) async {
+  /// 
+  /// When [getAcl] is false, the result will always have a null [acl] (e.g. Access Controll Policy).
+  /// Can be usefull if you don't have [s3:GetObjectAcl] permissions or to increase performance
+  Future<StatObjectResult> statObject(String bucket, String object, {bool getAcl = false}) async {
     StorageInvalidBucketNameError.check(bucket);
     StorageInvalidObjectNameError.check(object);
 
@@ -1122,7 +1125,7 @@ class S3Storage {
       size: int.parse(resp.headers['content-length']!),
       metaData: extractMetadata(resp.headers),
       lastModified: parseRfc7231Time(resp.headers['last-modified']!),
-      acl: await getObjectACL(bucket, object),
+      acl: getAcl ? await getObjectACL(bucket, object) : null,
     );
   }
 }

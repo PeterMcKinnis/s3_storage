@@ -47,7 +47,7 @@ extension StorageX on S3Storage {
     StorageInvalidBucketNameError.check(bucket);
     StorageInvalidObjectNameError.check(object);
 
-    final stat = await statObject(bucket, object);
+    final stat = await statObject(bucket, object, getAcl: false);
     final dir = dirname(filePath);
     await Directory(dir).create(recursive: true);
 
