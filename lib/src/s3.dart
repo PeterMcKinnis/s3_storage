@@ -1103,7 +1103,7 @@ class S3Storage {
   /// 
   /// When [getAcl] is false, the result will always have a null [acl] (e.g. Access Controll Policy).
   /// Can be usefull if you don't have [s3:GetObjectAcl] permissions or to increase performance
-  Future<StatObjectResult> statObject(String bucket, String object, {bool getAcl = false}) async {
+  Future<StatObjectResult> statObject(String bucket, String object, {bool getAcl = true}) async {
     StorageInvalidBucketNameError.check(bucket);
     StorageInvalidObjectNameError.check(object);
 
